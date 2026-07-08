@@ -1,0 +1,31 @@
+### =============================================================
+### PoC Banners - Nequi Negocios
+### Ejecutar con IntelliJ HTTP Client (▶️ al lado de cada request)
+### =============================================================
+
+### 1. OWNER (Emprendedor) - Ve banner de crédito personalizado + promo QR
+GET http://localhost:8090/banners?context=home
+X-Role: OWNER
+X-Issuer: co-customer
+X-Phone-Number: 3001460792
+X-Document-Type: CC
+X-Document-Number: 52354338
+
+### 2. SELLER (Vendedor) - Solo ve banner de tips de ventas
+GET http://localhost:8090/banners?context=home
+X-Role: SELLER
+X-Issuer: co-business
+
+### 3. ADMIN - Ve promo QR (no ve créditos ni tips de seller)
+GET http://localhost:8090/banners?context=home
+X-Role: ADMIN
+X-Issuer: co-business
+
+### 4. Contexto payments - Banner de links de pago (sin filtro de audiencia)
+GET http://localhost:8090/banners?context=payments
+
+### 5. Contexto inexistente - Retorna lista vacía
+GET http://localhost:8090/banners?context=settings
+
+### 6. Health check
+GET http://localhost:8090/actuator/health
