@@ -1,0 +1,18 @@
+buildscript {
+    ext {
+        springBootVersion = '4.0.6'
+        lombokVersion = '1.18.42'
+        mapstructVersion = '1.5.5.Final'
+        logbackVersion = '1.5.32'
+        logstashLogbackVersion = '9.0'
+        modelModule = 'model'
+        useCaseModule = 'usecase'
+    }
+}
+
+plugins {
+    id 'org.springframework.boot' version "${springBootVersion}" apply false
+    id 'jacoco'
+}
+
+apply from: './main.gradle'

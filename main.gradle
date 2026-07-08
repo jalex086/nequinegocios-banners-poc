@@ -1,0 +1,58 @@
+allprojects {
+    repositories {
+        mavenCentral()
+    }
+}
+
+subprojects {
+    apply plugin: 'java'
+    apply plugin: 'jacoco'
+    apply plugin: 'io.spring.dependency-management'
+
+    java {
+        toolchain {
+            languageVersion = JavaLanguageVersion.of(25)
+        }
+    }
+
+    test {
+        useJUnitPlatform()
+    }
+
+    dependencies {
+        implementation platform('software.amazon.awssdk:bom:2.38.7')
+        implementation 'io.projectreactor:reactor-core'
+
+        testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+        testImplementation 'io.projectreactor:reactor-test'
+        testImplementation 'org.springframework.boot:spring-boot-starter-test'
+        compileOnly "org.projectlombok:lombok:${lombokVersion}"
+        annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
+        testCompileOnly "org.projectlombok:lombok:${lombokVersion}"
+        testAnnotationProcessor "org.projectlombok:lombok:${lombokVersion}"
+        implementation platform("org.springframework.boot:spring-boot-dependencies:${springBootVersion}")
+
+        if (!project.name.equalsIgnoreCase(modelModule) && !project.name.equalsIgnoreCase(useCaseModule)) {
+            dependencies.add("implementation", "ch.qos.logback:logback-classic:${logbackVersion}")
+            dependencies.add("implementation", "net.logstash.logback:logstash-logback-encoder:${logstashLogbackVersion}")
+        }
+    }
+
+    test.finalizedBy(project.tasks.jacocoTestReport)
+    jacocoTestReport {
+        dependsOn test
+        reports {
+            xml.setRequired true
+            csv.setRequired false
+            html.setOutputLocation layout.buildDirectory.dir("reports/jacocoHtml")
+        }
+    }
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.compilerArgs = ['-Amapstruct.suppressGeneratorTimestamp=true']
+}
+
+tasks.named('wrapper') {
+    gradleVersion = '9.2.1'
+}

@@ -1,0 +1,14 @@
+apply plugin: 'org.springframework.boot'
+
+dependencies {
+    implementation project(':model')
+    implementation project(':usecase')
+    implementation project(':reactive-web')
+    implementation project(':banner-config')
+    implementation project(':rest-consumer')
+    implementation 'org.springframework.boot:spring-boot-starter'
+}
+
+bootJar {
+    archiveFileName = "${project.getParent().getName()}.${archiveExtension.get()}"
+}

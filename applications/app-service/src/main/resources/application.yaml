@@ -1,0 +1,20 @@
+server:
+  port: ${SERVER_PORT:8080}
+
+spring:
+  application:
+    name: "nequinegocios-banners"
+
+banners:
+  credits:
+    base-url: ${CREDIT_SERVICE_BASE_URL:https://vpce-0858ab8af872368e2-8kxh0ym8.execute-api.us-east-1.vpce.amazonaws.com/qa}
+    path: ${CREDIT_SERVICE_PATH:/api/v1/credits-transaction/get-product-id}
+    api-key: ${CREDIT_SERVICE_API_KEY:771e3dac0f120447d828bfd44e6ad9ae17d6fc1ff0df005ac50d4231faf48a48}
+    api-gw-id: ${CREDIT_SERVICE_API_GW_ID:8r40jyud32}
+    timeout-seconds: ${CREDIT_SERVICE_TIMEOUT:10}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health

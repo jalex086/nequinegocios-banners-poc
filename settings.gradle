@@ -1,0 +1,15 @@
+rootProject.name = 'nequinegocios-banners'
+
+include ':app-service'
+include ':model'
+include ':usecase'
+include ':reactive-web'
+include ':banner-config'
+include ':rest-consumer'
+
+project(':app-service').projectDir = file('./applications/app-service')
+project(':model').projectDir = file('./domain/model')
+project(':usecase').projectDir = file('./domain/usecase')
+project(':reactive-web').projectDir = file('./infrastructure/entry-points/reactive-web')
+project(':banner-config').projectDir = file('./infrastructure/driven-adapters/banner-config')
+project(':rest-consumer').projectDir = file('./infrastructure/driven-adapters/rest-consumer')
